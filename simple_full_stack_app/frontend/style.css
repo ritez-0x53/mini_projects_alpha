@@ -8,24 +8,24 @@
     background-color: transparent;
 }
 
-
-
-
-
 body,
 html {
     width: 100%;
     height: 100%;
-    color: black;
+    color: white;
     font-family: Arial, Helvetica, sans-serif;
     background-image: url(./bg_1.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
+}
 
 
-
+#main_wrapper {
+    width: 100%;
+    height: 100%;
+    /* overflow: hidden; */
 }
 
 h1 {
@@ -54,12 +54,14 @@ main {
 }
 
 form {
-    background-color: #d2d4daa9;
     width: 400px;
     /* margin: auto; */
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 0 16px white;
+    background-color: #13010163;
+    backdrop-filter: blur(10px);
+
 }
 
 .input_wrapper {
@@ -91,18 +93,22 @@ button {
     padding: 6px 14px;
     font-weight: bold;
     cursor: pointer;
+    /* color: white; */
 
+}
+
+input {
+    color: white;
 }
 
 #employee_container {
     width: 560px;
     /* margin: 20px auto; */
     padding: 20px;
-    background-color: #ffffff9f;
+    background-color: #1301010c;
     border-radius: 8px;
     box-shadow: 0 0 16px white;
-
-
+    backdrop-filter: blur(6px);
 
 }
 
@@ -119,14 +125,14 @@ button {
         padding: 6px;
         border-radius: 4px;
         border: none;
-        border: 2px solid #070808;
+        border: 2px solid #dad7d7;
         background-color: transparent;
     }
 }
 
 .employee_list {
     display: grid;
-    grid-template-columns: repeat(3,1fr);
+    grid-template-columns: repeat(3, 1fr);
     align-items: center;
     gap: 10px;
     padding: 10px;
@@ -180,4 +186,24 @@ button {
         object-position: center;
 
     }
+}
+
+.flag_class main {
+    display: none;
+}
+.flag_class {
+    position: relative;
+}
+.edit_form {
+    max-width: 400px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% , -50%);
+    display: none;
+    overflow: hidden;
+}
+
+.flag_class .edit_form {
+    display: block;
 }

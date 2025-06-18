@@ -9,51 +9,64 @@
 </head>
 
 <body>
-
     <nav>
         <h1>Simple Crud App</h1>
     </nav>
+    <div id="main_wrapper" class="" >
 
-    <main>
+        <main>
 
-        <form id="employee_from" >
+            <form id="employee_from">
+                <div class="input_wrapper">
+                    <label for="name">Name</label>
+                    <input id="nameInput" autocomplete="off" type="text" name="name">
+                </div>
+
+                <div class="input_wrapper">
+                    <label for="name">Role</label>
+                    <input id="roleInput" autocomplete="off" type="text" name="role">
+                </div>
+
+                <div class="input_wrapper">
+                    <label for="image">Image</label>
+                    <input autocomplete="off" type="file" accept="image/png, image/jpeg" name="image">
+                </div>
+
+                <div class="btn_wrapper">
+                    <button id="submit_btn">Submit</button>
+                </div>
+            </form>
+
+
+
+            <div id="employee_container">
+
+                <div class="search_box">
+                    <input id="search_input" placeholder="Search here" autocomplete="off" type="text">
+                </div>
+
+                <div class="employee">
+                </div>
+            </div>
+        </main>
+
+        <form class="edit_form">
             <div class="input_wrapper">
                 <label for="name">Name</label>
-                <input id="nameInput" autocomplete="off" type="text" name="name">
+                <input autocomplete="off" id="nameEdit" type="text" name="name" >
             </div>
-
             <div class="input_wrapper">
-                <label for="name">Role</label>
-                <input id="roleInput"  autocomplete="off" type="text" name="role">
+                <label for="role">Role</label>
+                <input autocomplete="off" id="roleEdit" type="text" name="role" >
             </div>
-
             <div class="input_wrapper">
-                <label for="image">Image</label>
-                <input autocomplete="off" type="file" accept="image/png, image/jpeg" name="image">
-            </div>
-
-            <div class="btn_wrapper">
-                <button id="submit_btn">Submit</button>
+                <button class="btn" >Done</button>
             </div>
         </form>
 
+        <!-- body wrapper end -->
+    </div>
 
-
-        <div id="employee_container">
-
-            <div class="search_box">
-                <input id="search_input" placeholder="Search here" autocomplete="off" type="text">
-            </div>
-
-            <div class="employee">
-            </div>
-
-
-
-        </div>
-
-
-    </main>
 
     <script src="script.js"></script>
 </body>
