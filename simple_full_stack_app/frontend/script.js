@@ -15,7 +15,7 @@ console.log(employeeLists)
 
 async function renderEmployee() {
     employeeLists.innerHTML = "";
-    const res = await fetch("http://127.0.0.1:7070/api/employee");
+    const res = await fetch("http://127.0.0.1:7070/api/employee", {});
     const data = await res.json();
     data.reverse().forEach((val) => {
 
@@ -40,11 +40,17 @@ async function renderEmployee() {
                 </div>` })
 }
 
-employeeLists.addEventListener("click", (e) => {
+employeeLists.addEventListener("click", async (e) => {
     // console.log(e.target)
     if (e.target.classList.contains("del_btn")) {
-        console.log("clicked del")
-        console.log(e.target.getAttribute("data-id"))
+        const id = e.target.getAttribute("data-id")
+        const response = await fetch(`http://127.0.0.1:7070/api/employee/${id}`, {
+            method: 'DELETE'
+        });
+        const data = await response.json();
+        console.log(data);
+        renderEmployee()
+
     } else if (e.target.classList.contains("edit_btn")) {
         console.log("edit clicked")
         console.log(e.target.getAttribute("data-id"))
@@ -54,7 +60,7 @@ employeeLists.addEventListener("click", (e) => {
 
 employeeForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
+
     const res = await fetch('http://127.0.0.1:7070/api/employee', {
         method: 'POST',
         headers: {

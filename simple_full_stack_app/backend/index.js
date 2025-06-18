@@ -39,16 +39,41 @@ async function addEmployee(obj){
     }
 }
 
+async function getEmployeeById(id){
+     const [rows] = await pool.execute(`SELECT * FROM employee WHERE id = ?` ,[id])
+     return rows[0]
+}
+
+
+async function deleteEmployeeById(id){
+    const [rows] = await pool.execute(`DELETE FROM employee WHERE id = ?` , [id]);
+    return rows.affectedRows
+}
+
 
 app.get("/api/employee", async (req, res) => {
     const data = await getEmployee();
     res.status(200).json(data)
 })
 
+
+
 app.post("/api/employee" , async(req,res)=> {
     const newId = await addEmployee(req.body)
     res.status(201).json({status:"created" , id : newId })
 })
+
+app.delete(`/api/employee/:id`,async(req,res)=> {
+    const id = req.params.id;
+    const result = await getEmployeeById(id);
+    if(result) {
+        const data = await deleteEmployeeById(id)
+        res.json({"message" : `deleted id num ${data}`})
+    }
+
+})
+
+
 
 
 app.listen(7070 , ()=> {
