@@ -28,27 +28,36 @@ async function getEmployee() {
     }
 }
 
-
-async function addEmployee(obj){
-    const {name , role} = obj;
+async function addEmployee(obj) {
+    const { name, role } = obj;
     try {
-        const [rows] = await pool.execute(`INSERT INTO employee (name ,role) VALUES (?,?)` , [name , role])
+        const [rows] = await pool.execute(`INSERT INTO employee (name ,role) VALUES (?,?)`, [name, role])
         return rows.insertId
     } catch (error) {
-        console.log(error)        
+        console.log(error)
     }
 }
 
-async function getEmployeeById(id){
-     const [rows] = await pool.execute(`SELECT * FROM employee WHERE id = ?` ,[id])
-     return rows[0]
+async function getEmployeeById(id) {
+    const [rows] = await pool.execute(`SELECT * FROM employee WHERE id = ?`, [id])
+    return rows[0]
 }
 
-
-async function deleteEmployeeById(id){
-    const [rows] = await pool.execute(`DELETE FROM employee WHERE id = ?` , [id]);
+async function deleteEmployeeById(id) {
+    const [rows] = await pool.execute(`DELETE FROM employee WHERE id = ?`, [id]);
     return rows.affectedRows
 }
+
+async function editEmployeeById(id , data) {
+    const {name,role} = data
+    try {
+        const [rows] = await pool.execute(`UPDATE employee SET name = ? , role = ? WHERE id = ?`, [name, role, id])
+        console.log(rows)
+    } catch (error) {
+        console.error(error.sqlMessage)
+    }
+}
+
 
 
 app.get("/api/employee", async (req, res) => {
@@ -56,26 +65,25 @@ app.get("/api/employee", async (req, res) => {
     res.status(200).json(data)
 })
 
-
-
-app.post("/api/employee" , async(req,res)=> {
+app.post("/api/employee", async (req, res) => {
     const newId = await addEmployee(req.body)
-    res.status(201).json({status:"created" , id : newId })
+    res.status(201).json({ status: "created", id: newId })
 })
 
-app.delete(`/api/employee/:id`,async(req,res)=> {
+app.delete(`/api/employee/:id`, async (req, res) => {
     const id = req.params.id;
     const result = await getEmployeeById(id);
-    if(result) {
+    if (result) {
         const data = await deleteEmployeeById(id)
-        res.json({"message" : `deleted id num ${data}`})
+        res.json({ "message": `deleted id num ${data}` })
     }
 
 })
 
+app.patch(`api/employee/:id`, async (req, res) => {
 
+})
 
-
-app.listen(7070 , ()=> {
+app.listen(7070, () => {
     console.log("server running on port 7070")
 })

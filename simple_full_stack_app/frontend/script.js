@@ -52,8 +52,12 @@ employeeLists.addEventListener("click", async (e) => {
         renderEmployee()
 
     } else if (e.target.classList.contains("edit_btn")) {
-        console.log("edit clicked")
-        console.log(e.target.getAttribute("data-id"))
+        const id = e.target.getAttribute("data-id")
+        const response = await fetch(`http://127.0.0.1:7070/api/employee/${id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: newName, role: newRole }),
+            });
 
     }
 })
