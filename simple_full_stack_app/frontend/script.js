@@ -10,13 +10,13 @@ const roleEdit = document.getElementById("roleEdit")
 const mainWrapper = document.getElementById("main_wrapper");
 const nameInpMsg = document.getElementById("name_msg")
 const roleInpMsg = document.getElementById("role_msg")
+const searchEmployee = document.querySelector("#search_input")
 
 function clearMsgs() {
     nameInpMsg.textContent = ""
     roleInpMsg.textContent = ""
 }
 
-let employees = []
 let selectedId;
 let f1 = false;
 let f2 = false;
@@ -26,16 +26,18 @@ function clearForm() {
     role.value = ""
 }
 
-console.log(employeeLists)
 
-async function renderEmployee() {
+async function getAllEmployee() {
     employeeLists.innerHTML = "";
     const res = await fetch("http://127.0.0.1:7070/api/employee", {});
     const data = await res.json();
-    employees = [...data];
-    data.reverse().forEach((val) => {
+    return [...data];
+}
 
-        // console.log(new Date(val.joined))
+async function renderEmployee() {
+    employeeLists.innerHTML = ""
+    const data = await getAllEmployee();
+    data.reverse().forEach((val) => {
         const date = new Date(val.joined).toLocaleDateString().split("/").join("-")
 
         employeeLists.innerHTML += `  <div class="employee_list">
@@ -57,7 +59,8 @@ async function renderEmployee() {
 }
 
 
-function getEmployee(id) {
+async function getEmployee(id) {
+    const employees = await getAllEmployee();
     const employee = employees.filter((val) => {
         return val.id == id;
     })
@@ -80,7 +83,7 @@ employeeLists.addEventListener("click", async (e) => {
         const id = e.target.getAttribute("data-id")
         mainWrapper.classList.add("flag_class")
         selectedId = id;
-        const editEmployee = getEmployee(id);
+        const editEmployee = await getEmployee(id);
         nameEdit.value = editEmployee.name
         roleEdit.value = editEmployee.role
     }
@@ -140,6 +143,10 @@ editForm.addEventListener("submit", async (e) => {
     renderEmployee();
     mainWrapper.classList.remove("flag_class")
 
+})
+
+searchEmployee.addEventListener("input", (e) => {
+    console.log(e.target.value)
 })
 
 

@@ -45,7 +45,7 @@ async function getEmployeeById(id) {
 
 async function deleteEmployeeById(id) {
     const [rows] = await pool.execute(`DELETE FROM employee WHERE id = ?`, [id]);
-    return rows.affectedRows
+    return "data deleted"
 }
 
 async function editEmployeeById(id , data) {
@@ -79,7 +79,7 @@ app.delete(`/api/employee/:id`, async (req, res) => {
     const result = await getEmployeeById(id);
     if (result) {
         const data = await deleteEmployeeById(id)
-        res.json({ "message": `deleted id num ${data}` })
+        res.json({ "message": `${data}` })
     }
 
 })
