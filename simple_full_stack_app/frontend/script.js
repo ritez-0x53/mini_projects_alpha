@@ -119,7 +119,8 @@ employeeForm.addEventListener("submit", async (e) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: name.value,
+                // name: `${name.value.at(0).toUpperCase()+name.value.slice(1,)}`,
+                name: `${name.value.toUpperCase()}`,
                 role: role.value
             })
         })
