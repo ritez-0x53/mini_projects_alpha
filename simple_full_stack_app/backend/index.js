@@ -58,6 +58,10 @@ async function editEmployeeById(id , data) {
     }
 }
 
+async function editEmployee(id ,name ,role){
+    const [rows] =  await pool.execute(`UPDATE employee SET name = ? , role = ? WHERE id = ?` , [name,role,id])
+    return rows
+}
 
 
 app.get("/api/employee", async (req, res) => {
@@ -80,8 +84,16 @@ app.delete(`/api/employee/:id`, async (req, res) => {
 
 })
 
-app.patch(`api/employee/:id`, async (req, res) => {
+app.patch(`/api/employee/:id`,async (req, res) => {
+    const id = req.params.id
+    const {name , role} = req.body;
+    try {
+        const reslt = await editEmployee(id , name , role)
+        res.send("updated data")
 
+    } catch (error) {
+        console.error(error)
+    }
 })
 
 app.listen(7070, () => {

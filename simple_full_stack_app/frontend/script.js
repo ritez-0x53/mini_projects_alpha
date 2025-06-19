@@ -4,7 +4,13 @@ const submitBtn = document.querySelector("#submit_btn")
 const employeeForm = document.getElementById("employee_from");
 const name = document.getElementById("nameInput")
 const role = document.getElementById("roleInput");
+const editForm = document.querySelector(".edit_form")
+const nameEdit = document.getElementById("nameEdit")
+const roleEdit = document.getElementById("roleEdit")
+const mainWrapper = document.getElementById("main_wrapper");
 
+let employees = []
+let selectedId;
 
 function clearForm() {
     name.value = ""
@@ -17,6 +23,7 @@ async function renderEmployee() {
     employeeLists.innerHTML = "";
     const res = await fetch("http://127.0.0.1:7070/api/employee", {});
     const data = await res.json();
+    employees = [...data];
     data.reverse().forEach((val) => {
 
         // console.log(new Date(val.joined))
@@ -40,6 +47,14 @@ async function renderEmployee() {
                 </div>` })
 }
 
+
+function getEmployee(id) {
+    const employee = employees.filter((val) => {
+        return val.id == id;
+    })
+    return employee[0];
+}
+
 employeeLists.addEventListener("click", async (e) => {
     // console.log(e.target)
     if (e.target.classList.contains("del_btn")) {
@@ -53,18 +68,17 @@ employeeLists.addEventListener("click", async (e) => {
 
     } else if (e.target.classList.contains("edit_btn")) {
         const id = e.target.getAttribute("data-id")
-        const response = await fetch(`http://127.0.0.1:7070/api/employee/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: newName, role: newRole }),
-            });
-
-    }
+        mainWrapper.classList.add("flag_class")
+        selectedId = id;
+        const editEmployee = getEmployee(id);
+        nameEdit.value = editEmployee.name
+        roleEdit.value = editEmployee.role
+}
 })
 
 employeeForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-
+    
     const res = await fetch('http://127.0.0.1:7070/api/employee', {
         method: 'POST',
         headers: {
@@ -75,13 +89,26 @@ employeeForm.addEventListener("submit", async (e) => {
             role: role.value
         })
     })
-
+    
     const final = await res.json()
     console.log(final)
     clearForm()
     renderEmployee()
-
+    
 })
+
+
+    editForm.addEventListener("submit", async (e) => {
+        e.preventDefault()
+        const response = await fetch(`http://127.0.0.1:7070/api/employee/${selectedId}`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: nameEdit.value, role: roleEdit.value }),
+        });
+        renderEmployee();
+        mainWrapper.classList.remove("flag_class")
+        
+    })
 
 
 renderEmployee()
