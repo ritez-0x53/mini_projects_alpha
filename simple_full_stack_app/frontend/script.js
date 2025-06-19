@@ -8,9 +8,18 @@ const editForm = document.querySelector(".edit_form")
 const nameEdit = document.getElementById("nameEdit")
 const roleEdit = document.getElementById("roleEdit")
 const mainWrapper = document.getElementById("main_wrapper");
+const nameInpMsg = document.getElementById("name_msg")
+const roleInpMsg = document.getElementById("role_msg")
+
+function clearMsgs() {
+    nameInpMsg.textContent = ""
+    roleInpMsg.textContent = ""
+}
 
 let employees = []
 let selectedId;
+let f1 = false;
+let f2 = false;
 
 function clearForm() {
     name.value = ""
@@ -55,6 +64,7 @@ function getEmployee(id) {
     return employee[0];
 }
 
+
 employeeLists.addEventListener("click", async (e) => {
     // console.log(e.target)
     if (e.target.classList.contains("del_btn")) {
@@ -64,7 +74,7 @@ employeeLists.addEventListener("click", async (e) => {
         });
         const data = await response.json();
         console.log(data);
-        renderEmployee()
+        renderEmployee();
 
     } else if (e.target.classList.contains("edit_btn")) {
         const id = e.target.getAttribute("data-id")
@@ -73,42 +83,64 @@ employeeLists.addEventListener("click", async (e) => {
         const editEmployee = getEmployee(id);
         nameEdit.value = editEmployee.name
         roleEdit.value = editEmployee.role
-}
+    }
 })
+
+
+
+name.addEventListener("input", (e) => {
+    if (e.target.value.length < 4) {
+        nameInpMsg.textContent = "mininum 4 characters is required "
+    } else {
+        nameInpMsg.textContent = ""
+        f2 = true;
+    }
+})
+role.addEventListener("input", (e) => {
+    if (e.target.value.length < 4) {
+        roleInpMsg.textContent = "mininum 4 characters is required "
+    } else {
+        roleInpMsg.textContent = ""
+        f1 = true;
+    }
+})
+
 
 employeeForm.addEventListener("submit", async (e) => {
     e.preventDefault();
-    
-    const res = await fetch('http://127.0.0.1:7070/api/employee', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            name: name.value,
-            role: role.value
+    if (f1 & f2) {
+        clearMsgs();
+        const res = await fetch('http://127.0.0.1:7070/api/employee', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: name.value,
+                role: role.value
+            })
         })
-    })
-    
-    const final = await res.json()
-    console.log(final)
-    clearForm()
-    renderEmployee()
-    
+
+        const final = await res.json()
+        console.log(final)
+        renderEmployee()
+        clearForm()
+    }
 })
 
 
-    editForm.addEventListener("submit", async (e) => {
-        e.preventDefault()
-        const response = await fetch(`http://127.0.0.1:7070/api/employee/${selectedId}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ name: nameEdit.value, role: roleEdit.value }),
-        });
-        renderEmployee();
-        mainWrapper.classList.remove("flag_class")
-        
-    })
+
+editForm.addEventListener("submit", async (e) => {
+    e.preventDefault()
+    const response = await fetch(`http://127.0.0.1:7070/api/employee/${selectedId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: nameEdit.value, role: roleEdit.value }),
+    });
+    renderEmployee();
+    mainWrapper.classList.remove("flag_class")
+
+})
 
 
 renderEmployee()

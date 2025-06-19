@@ -71,6 +71,7 @@ form {
     gap: 4px;
     font-weight: bold;
     color: white;
+    /* border: 2px salmon solid; */
 
     input {
         padding: 6px;
@@ -206,4 +207,9 @@ input {
 
 .flag_class .edit_form {
     display: block;
+}
+.msgs {
+    color: red;
+    margin-top: 4px;
+    margin-left: 15px;
 }
