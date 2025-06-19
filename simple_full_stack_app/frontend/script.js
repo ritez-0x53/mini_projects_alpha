@@ -40,7 +40,7 @@ async function renderEmployee() {
 
         employeeLists.innerHTML += `  <div class="employee_list">
                     <div class="image">
-                        <img src="" alt="">
+                        <img src="https://c4.wallpaperflare.com/wallpaper/1014/97/151/avatar-2-wallpaper-preview.jpg" alt="">
                     </div>
 
                     <div class="details">
