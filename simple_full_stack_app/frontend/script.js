@@ -99,9 +99,9 @@ name.addEventListener("input", (e) => {
         f2 = true;
     }
 })
-role.addEventListener("input", (e) => {
-    if (e.target.value.length < 4) {
-        roleInpMsg.textContent = "mininum 4 characters is required "
+role.addEventListener("change", (e) => {
+    if (e.target.value.length == 0) {
+        roleInpMsg.textContent = "Please Select a Role"
     } else {
         roleInpMsg.textContent = ""
         f1 = true;
@@ -150,7 +150,6 @@ editForm.addEventListener("submit", async (e) => {
 searchEmployee.addEventListener("input", async (e) => {
     const searchVal = e.target.value.toLowerCase()
     const employees = await getAllEmployee();
-    console.log(employees)
     const filter = employees.filter((el)=> {
         return el.name.toLowerCase().includes(searchVal) || el.role.toLowerCase().includes(searchVal)
     })

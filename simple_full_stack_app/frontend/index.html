@@ -25,7 +25,14 @@
 
                 <div class="input_wrapper">
                     <label for="name">Role</label>
-                    <input id="roleInput" autocomplete="off" type="text" name="role">
+                    <!-- <input id="roleInput" autocomplete="off" type="text" name="role"> -->
+                    <select name="roleInput" id="roleInput">
+                    <option value="">Select Role</option>
+                    <option value="Frontend Developer">Frontend Developer</option>
+                    <option value="Backend Developer">Backend Developer</option>
+                    <option value="AI Engineer">AI Engineer</option>
+                    <option value="Devops Engineer">Devops Engineer</option>
+                 </select>
                     <small class="msgs" id="role_msg"></small>
                 </div>
 
@@ -60,6 +67,7 @@
             <div class="input_wrapper">
                 <label for="role">Role</label>
                 <input  autocomplete="off" id="roleEdit" type="text" name="role" >
+                 
             </div>
             <div class="input_wrapper">
                 <button oninput="edit" class="btn" >Done</button>
