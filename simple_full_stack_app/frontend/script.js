@@ -34,9 +34,8 @@ async function getAllEmployee() {
     return [...data];
 }
 
-async function renderEmployee() {
+async function renderEmployee(data) {
     employeeLists.innerHTML = ""
-    const data = await getAllEmployee();
     data.reverse().forEach((val) => {
         const date = new Date(val.joined).toLocaleDateString().split("/").join("-")
 
@@ -77,7 +76,8 @@ employeeLists.addEventListener("click", async (e) => {
         });
         const data = await response.json();
         console.log(data);
-        renderEmployee();
+        const employees = await getAllEmployee();
+        await renderEmployee(employees);
 
     } else if (e.target.classList.contains("edit_btn")) {
         const id = e.target.getAttribute("data-id")
@@ -126,7 +126,8 @@ employeeForm.addEventListener("submit", async (e) => {
 
         const final = await res.json()
         console.log(final)
-        renderEmployee()
+        const employees = await getAllEmployee();
+        await renderEmployee(employees)
         clearForm()
     }
 })
@@ -140,15 +141,25 @@ editForm.addEventListener("submit", async (e) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: nameEdit.value, role: roleEdit.value }),
     });
-    renderEmployee();
+    const employees = await getAllEmployee();
+    await renderEmployee(employees)
     mainWrapper.classList.remove("flag_class")
 
 })
 
-searchEmployee.addEventListener("input", (e) => {
-    console.log(e.target.value)
+searchEmployee.addEventListener("input", async (e) => {
+    const searchVal = e.target.value.toLowerCase()
+    const employees = await getAllEmployee();
+    console.log(employees)
+    const filter = employees.filter((el)=> {
+        return el.name.toLowerCase().includes(searchVal) || el.role.toLowerCase().includes(searchVal)
+    })
+    await renderEmployee(filter);
 })
 
-
-renderEmployee()
+async function main() {
+    const employees = await getAllEmployee()
+    await renderEmployee(employees);
+}
+main()
 
