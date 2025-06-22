@@ -4,6 +4,7 @@ const submitBtn = document.querySelector("#submit_btn")
 const employeeForm = document.getElementById("employee_from");
 const name = document.getElementById("nameInput")
 const role = document.getElementById("roleInput");
+const image = document.getElementById("image");
 const editForm = document.querySelector(".edit_form")
 const nameEdit = document.getElementById("nameEdit")
 const roleEdit = document.getElementById("roleEdit")
@@ -112,6 +113,7 @@ role.addEventListener("change", (e) => {
 employeeForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (f1 & f2) {
+        console.log(name.value , role.value , image.files[0]);
         clearMsgs();
         const res = await fetch('http://127.0.0.1:7070/api/employee', {
             method: 'POST',
